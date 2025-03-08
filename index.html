@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoble - Building a better future.</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #0057ff, #7300ff);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 0;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            border-bottom: 2px solid #0057ff;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .key-metrics {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .metric-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .metric-card p {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .fund-option {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .fund-option h3 {
+            color: #00ff88;
+            font-size: 1.4rem;
+        }
+
+        .fund-option.available h3 {
+            color: #ffcc00;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background: #0057ff;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .button:hover {
+            background: #003cb3;
+        }
+
+        .coming-soon {
+            font-size: 1rem;
+            color: #e6edf3;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .lightbox-btn {
+            background-color: #FFA500;
+            border: 1px solid #FFA500;
+            padding: 10px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: all .1s ease-in;
+            margin-top: 16px;
+        }
+
+        .lightbox-btn:hover {
+            background-color: #e68900;
+            border: 1px solid #e68900;
+        }
+    </style>
+    <script>
+        async function fetchMetrics() {
+            try {
+                const response = await fetch('http://143.198.217.84:8081/api/v1/profit', {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6eyJ1IjoiYWRtaW4ifSwiZXhwIjoxNzQxNDI4MzYzLCJpYXQiOjE3NDE0Mjc0NjMsInR5cGUiOiJhY2Nlc3MifQ.jmYwRfnh361Q3KcY2SaxW97Z7jrVDjoGhKtbqMa5CSM'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                document.getElementById('trading-volume').textContent = `${data.trading_volume.toFixed(2)}`;
+                document.getElementById('profit-percent').textContent = `${data.profit_closed_percent.toFixed(2)}%`;
+
+            } catch (error) {
+                console.error('Error fetching metrics:', error);
+                document.getElementById('trading-volume').textContent = 'Error';
+                document.getElementById('profit-percent').textContent = 'Error';
+            }
+        }
+
+        window.onload = fetchMetrics;
+    </script>
+</head>
+
+<body>
+    <header>
+        <img src="logo.png" alt="Shoble Logo" class="logo">
+        <h1>Shoble</h1>
+        <p>Building a better future.</p>
+    </header>
+
+    <nav>
+        <!-- Removed unnecessary links -->
+    </nav>
+
+    <main>
+        <section>
+            <h2>Key Performance Indicators</h2>
+            <div class="key-metrics">
+                <div class="metric-card">
+                    <h4>Trading Volume (USD)</h4>
+                    <p id="trading-volume">Loading...</p>
+                </div>
+                <div class="metric-card">
+                    <h4>Profit (Closed Trades)</h4>
+                    <p id="profit-percent">Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Investment Options</h2>
+            <div class="fund-option available">
+                <h3>High Risk, High Yield</h3>
+                <p>Aggressively pursues high-growth opportunities. Suitable for high-return seekers.</p>
+                <!-- Updated Button to open the signup lightbox -->
+                <a href="https://form.jotform.com/250661500945050" class="button"
+                    onclick="JFL_250661500945050.open()">Invest Now</a>
+            </div>
+            <div class="fund-option">
+                <h3>Medium Risk (Coming Soon)</h3>
+                <p>A balanced strategy combining stability and growth.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Sign In (Coming Soon)</h2>
+            <p class="coming-soon">The sign-in feature is not available yet. Stay tuned!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Shoble. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
