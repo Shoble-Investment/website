@@ -129,7 +129,7 @@
             return match ? match[2] : null;
         }
 
-        const cookie = getCookie('sess-cookie');
+        const cookie = localStorage.getItem('authToken');
         if (!cookie) {
             window.location.href = '/login/index.html';
         } else {
