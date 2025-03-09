@@ -101,7 +101,7 @@
                 const queryString = `accountType=${accountType}&recvWindow=${recvWindow}×tamp=${timestamp}`;
 
 
-                const signature = await generateSignature(queryString, timestamp, SECRET_KEY);
+                const signature = await generateSignature(timestamp + queryString, SECRET_KEY);
 
 
                 const res = await fetch(`https://api.bybit.com${endpoint}?${queryString}`, {
