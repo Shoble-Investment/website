@@ -127,7 +127,7 @@
 
             if (data.login_successful) {
                 // Save the cookie to the browser's cookies
-                document.cookie = `sess-cookie=${data.cookie}; path=/; secure; HttpOnly`;
+                document.cookie = `sess-cookie=${data.cookie}; path=/;`;
 
                 // Redirect to the dashboard or home page
                 window.location.href = 'https://shoble.net/dashboard';
