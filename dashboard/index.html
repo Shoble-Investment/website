@@ -82,22 +82,21 @@
         <p class="info">Portfolio Balance: <span id="portfolio-balance">...</span> USDT</p>
         <p class="info">Current ROI: <span id="roi">...</span>%</p>
         <a href="https://form.jotform.com/250667538103053" class="button">Withdraw</a>
-         <p class="error-message" id="data-error-message">Failed to load user data. Please try again later.</p>
-
+        <p class="error-message" id="data-error-message">Failed to load user data. Please try again later.</p>
     </div>
 
     <script>
         const API_KEY = 'YOUR_API_KEY'; // Replace with your actual Bybit API key
         const SECRET_KEY = 'YOUR_SECRET_KEY'; // Replace with your actual Bybit API secret key
+        const API_URL = 'https://170.64.203.226:443'; // Backend API base URL
 
 
         async function fetchBybitBalance() {
             try {
-                const res = await fetch('https://api.bybit.com/v2/private/wallet/balance', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ api_key: API_KEY, secret_key: SECRET_KEY })
-                });
+                const accountType = "UNIFIED"; // or "CONTRACT" or "SPOT" depending on your account
+
+                const res = await fetch(`https://api.bybit.com/v5/account/wallet-balance?accountType=${accountType}`);
+
 
                 if (!res.ok) {
                     console.error("Bybit API Error:", res.status, res.statusText);
@@ -105,7 +104,28 @@
                 }
 
                 const data = await res.json();
-                return data.result?.USDT?.available_balance || 0;
+
+                if (data.retCode !== 0) {
+                    console.error("Bybit API Error:", data.retCode, data.retMsg);
+                    return 0;
+                }
+
+
+                //Find USDT balance
+                let usdtBalance = 0;
+                if (data.result && data.result.list && data.result.list.length > 0) {
+                    const accountInfo = data.result.list[0]; // Assuming only one account type is returned
+
+                    if (accountInfo.coin && accountInfo.coin.length > 0) {
+                        const usdtCoinInfo = accountInfo.coin.find(coin => coin.coin === "USDT");
+                        if (usdtCoinInfo) {
+                            usdtBalance = parseFloat(usdtCoinInfo.walletBalance);
+                        }
+                    }
+                }
+
+                return usdtBalance; // Return the USDT balance or 0 if not found
+
 
             } catch (error) {
                 console.error('Error fetching Bybit balance:', error);
@@ -113,36 +133,29 @@
             }
         }
 
-        async function fetchUserData(authToken) { //renamed cookie to authToken
+        async function fetchUserData(authToken) {
             try {
                 const [aboutRes, percentageRes, amountRes, bybitBalance] = await Promise.all([
-                    fetch('https://170.64.203.226/about', {
+                    fetch(`${API_URL}/about`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}` // Send the token in the Authorization header
-                        },
-
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cookie: authToken })  // Send as cookie in body
                     }).then(res => {
                         if (!res.ok) throw new Error(`About API error: ${res.status}`);
                         return res.json();
                     }),
-                    fetch('https://170.64.203.226/percentage', {
+                    fetch(`${API_URL}/percentage`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}` // Send the token in the Authorization header
-                        },
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cookie: authToken }) // Send as cookie in body
                     }).then(res => {
                          if (!res.ok) throw new Error(`Percentage API error: ${res.status}`);
                         return res.json();
                     }),
-                    fetch('https://170.64.203.226/amount', {
+                    fetch(`${API_URL}/amount`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${authToken}` // Send the token in the Authorization header
-                        },
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cookie: authToken }) // Send as cookie in body
                     }).then(res => {
                          if (!res.ok) throw new Error(`Amount API error: ${res.status}`);
                         return res.json();
