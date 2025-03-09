@@ -126,8 +126,8 @@
             const data = await response.json();
 
             if (data.login_successful) {
-                // Save the cookie to the browser's cookies
-                document.cookie = `sess-cookie=${data.cookie}; path=/;`;
+                // Store the token in localStorage
+                localStorage.setItem('authToken', data.cookie); // Assuming data.cookie contains the authentication token
 
                 // Redirect to the dashboard or home page
                 window.location.href = 'https://shoble.net/dashboard';
