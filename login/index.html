@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Shoble</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            background: #1e252d;
+            color: #e6edf3;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #0057ff;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0057ff;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #003cb3;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #ff4d4d;
+            margin-top: 10px;
+            font-size: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Login to Shoble</h2>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <label for="totp">TOTP</label>
+                <input type="text" id="totp" name="totp" placeholder="Enter your TOTP" required>
+            </div>
+            <button type="submit" class="button">Login</button>
+        </form>
+        <p class="error-message" id="error-message">Invalid email or TOTP. Please try again.</p>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const totp = document.getElementById('totp').value;
+
+            const response = await fetch('http://170.64.203.226:5000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, totp })
+            });
+
+            const data = await response.json();
+
+            if (data.login_successful) {
+                // Save the cookie to the browser's cookies
+                document.cookie = `sess-cookie=${data.cookie}; path=/; secure; HttpOnly`;
+
+                // Redirect to the dashboard or home page
+                window.location.href = 'http://localhost:5500/dashboard';
+            } else {
+                // Display error message
+                document.getElementById('error-message').style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

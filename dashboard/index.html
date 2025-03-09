@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Shoble</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #0057ff;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #003cb3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <h2>Welcome, <span id="user-name">...</span></h2>
+        <p class="info">Email: <span id="user-email">...</span></p>
+        <p class="info">Portfolio Balance: <span id="portfolio-balance">...</span> USDT</p>
+        <p class="info">Current ROI: <span id="roi">...</span>%</p>
+        <a href="https://form.jotform.com/250667538103053" class="button">Withdraw</a>
+    </div>
+
+    <script>
+        async function fetchBybitBalance() {
+            const res = await fetch('https://api.bybit.com/v2/private/wallet/balance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ api_key: 'YOUR_API_KEY', secret_key: 'YOUR_SECRET_KEY' })
+            });
+            const data = await res.json();
+            return data.result?.USDT?.available_balance || 0;
+        }
+
+        async function fetchUserData(cookie) {
+            try {
+                const [aboutRes, percentageRes, amountRes, bybitBalance] = await Promise.all([
+                    fetch('http://170.64.203.226:5000/about', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cookie })
+                    }).then(res => res.json()),
+                    fetch('http://170.64.203.226:5000/percentage', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cookie })
+                    }).then(res => res.json()),
+                    fetch('http://170.64.203.226:5000/amount', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cookie })
+                    }).then(res => res.json()),
+                    fetchBybitBalance()
+                ]);
+
+                const { name, email } = aboutRes;
+                const percentage_of_port = percentageRes.percentage_of_port || 0;
+                const initial_investment = amountRes.initial_investment || 1; // Avoid division by zero
+
+                const portfolioBalance = (bybitBalance * percentage_of_port / 100).toFixed(2);
+                const roi = (((portfolioBalance / initial_investment) - 1) * 100).toFixed(2);
+
+                document.getElementById('user-name').textContent = name || 'Unknown';
+                document.getElementById('user-email').textContent = email || 'Unknown';
+                document.getElementById('portfolio-balance').textContent = portfolioBalance;
+                document.getElementById('roi').textContent = isNaN(roi) ? '0.00' : roi;
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        }
+
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? match[2] : null;
+        }
+
+        const cookie = getCookie('sess-cookie');
+        if (!cookie) {
+            window.location.href = '/login/index.html';
+        } else {
+            fetchUserData(cookie);
+        }
+    </script>
+</body>
+
+</html>
