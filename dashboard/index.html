@@ -82,61 +82,33 @@
         <p class="info">Portfolio Balance: <span id="portfolio-balance">...</span> USDT</p>
         <p class="info">Current ROI: <span id="roi">...</span>%</p>
         <a href="https://form.jotform.com/250667538103053" class="button">Withdraw</a>
-         <p class="error-message" id="data-error-message">Failed to load user data. Please try again later.</p>
-
+        <p class="error-message" id="data-error-message">Failed to load user data. Please try again later.</p>
     </div>
 
     <script>
         const API_URL = 'https://170.64.203.226:443'; // Backend API base URL
 
-
         async function fetchBybitBalance() {
             try {
-                const API_KEY = 'b5efgpruvsGfWrNzes';
-                const SECRET_KEY = 'WQRIsXHcY0DjxcilGaBLWVpeoWSM44qCUsLZ';
-                const accountType = "UNIFIED";
-                const timestamp = Date.now().toString();
-                const recvWindow = '5000'; // Recommended value
-                const endpoint = '/v5/account/wallet-balance';
-                const queryString = `accountType=${accountType}&recvWindow=${recvWindow}×tamp=${timestamp}`;
-
-
-                const signature = await generateSignature(timestamp + queryString, SECRET_KEY);
-
-
-                const res = await fetch(`https://api.bybit.com${endpoint}?${queryString}`, {
-                    method: 'GET', // Use GET method for this endpoint
-                    headers: {
-                        'X-BAPI-API-KEY': API_KEY,
-                        'X-BAPI-SIGN': signature,
-                        'X-BAPI-SIGN-TYPE': '2', // HMAC SHA256
-                        'X-BAPI-TIMESTAMP': timestamp,
-                        'X-BAPI-RECV-WINDOW': recvWindow,
-                        'Content-Type': 'application/json',
-                    }
-                });
+                const res = await fetch(`${API_URL}/bal`); // Call your backend endpoint
 
                 if (!res.ok) {
-                    console.error("Bybit API Error:", res.status, res.statusText);
+                    console.error("Backend API Error:", res.status, res.statusText);
                     return 0;
                 }
 
                 const data = await res.json();
 
-                if (data.retCode !== 0) {
-                    console.error("Bybit API Error:", data.retCode, data.retMsg);
+                if (data.error) {
+                    console.error("Backend API Error:", data.error);
                     return 0;
                 }
 
+                //Extract USDT balance from backend response
                 let usdtBalance = 0;
-                if (data.result && data.result.list && data.result.list.length > 0) {
-                    const accountInfo = data.result.list[0];
-                    if (accountInfo.coin && accountInfo.coin.length > 0) {
-                        const usdtCoinInfo = accountInfo.coin.find(coin => coin.coin === "USDT");
-                        if (usdtCoinInfo) {
-                            usdtBalance = parseFloat(usdtCoinInfo.walletBalance);
-                        }
-                    }
+                const balanceData = data.Balance; //data.Balance references the bybitbalance object
+                if (balanceData && balanceData["total"] && balanceData["total"]["USDT"]) {
+                    usdtBalance = balanceData["total"]["USDT"];
                 }
 
                 return usdtBalance;
@@ -194,30 +166,6 @@
                 document.getElementById('data-error-message').style.display = 'block'; // Show error message
             }
         }
-
-        async function generateSignature(queryString, timestamp, secretKey) {
-            // Use SubtleCrypto for browser compatibility
-            const crypto = window.crypto.subtle;
-            const message = timestamp + queryString;
-            const key = await crypto.importKey(
-                "raw",
-                new TextEncoder().encode(secretKey),
-                { name: "HMAC", hash: "SHA-256" },
-                false,
-                ["sign"]
-            );
-            const signature = await crypto.sign(
-                "HMAC",
-                key,
-                new TextEncoder().encode(message)
-            );
-            const hashArray = Array.from(new Uint8Array(signature));
-            const hashHex = hashArray
-                .map((b) => b.toString(16).padStart(2, "0"))
-                .join("");
-            return hashHex;
-        }
-
 
         const authToken = localStorage.getItem('authToken'); // Get token from localStorage
         if (!authToken) {
