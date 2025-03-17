@@ -64,14 +64,6 @@
         .button:hover {
             background-color: #003cb3;
         }
-
-         .error-message {
-            text-align: center;
-            color: #ff4d4d;
-            margin-top: 10px;
-            font-size: 1rem;
-            display: none; /* Initially hide the error message */
-        }
     </style>
 </head>
 
@@ -82,70 +74,37 @@
         <p class="info">Portfolio Balance: <span id="portfolio-balance">...</span> USDT</p>
         <p class="info">Current ROI: <span id="roi">...</span>%</p>
         <a href="https://form.jotform.com/250667538103053" class="button">Withdraw</a>
-        <p class="error-message" id="data-error-message">Failed to load user data. Please try again later.</p>
     </div>
 
     <script>
-        const API_URL = 'https://api.shoble.net'; // Backend API base URL
-
         async function fetchBybitBalance() {
-            try {
-                const res = await fetch(`${API_URL}/bal`); // Call your backend endpoint
-
-                if (!res.ok) {
-                    console.error("Backend API Error:", res.status, res.statusText);
-                    return 0;
-                }
-
-                const data = await res.json();
-
-                if (data.error) {
-                    console.error("Backend API Error:", data.error);
-                    return 0;
-                }
-
-                //Extract USDT balance from backend response
-                let usdtBalance = 0;
-                const balanceData = data.Balance; //data.Balance references the bybitbalance object
-                if (balanceData && balanceData["total"] && balanceData["total"]["USDT"]) {
-                    usdtBalance = balanceData["total"]["USDT"];
-                }
-
-                return usdtBalance;
-
-            } catch (error) {
-                console.error('Error fetching Bybit balance:', error);
-                return 0;
-            }
+            const res = await fetch('https://api.bybit.com/v2/private/wallet/balance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ api_key: 'YOUR_API_KEY', secret_key: 'YOUR_SECRET_KEY' })
+            });
+            const data = await res.json();
+            return data.result?.USDT?.available_balance || 0;
         }
 
-        async function fetchUserData(authToken) {
+        async function fetchUserData(cookie) {
             try {
                 const [aboutRes, percentageRes, amountRes, bybitBalance] = await Promise.all([
-                    fetch(`${API_URL}/about`, {
+                    fetch('http://170.64.203.226:5000/about', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ cookie: authToken })  // Send as cookie in body
-                    }).then(res => {
-                        if (!res.ok) throw new Error(`About API error: ${res.status}`);
-                        return res.json();
-                    }),
-                    fetch(`${API_URL}/percentage`, {
+                        body: JSON.stringify({ cookie })
+                    }).then(res => res.json()),
+                    fetch('http://170.64.203.226:5000/percentage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ cookie: authToken }) // Send as cookie in body
-                    }).then(res => {
-                         if (!res.ok) throw new Error(`Percentage API error: ${res.status}`);
-                        return res.json();
-                    }),
-                    fetch(`${API_URL}/amount`, {
+                        body: JSON.stringify({ cookie })
+                    }).then(res => res.json()),
+                    fetch('http://170.64.203.226:5000/amount', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ cookie: authToken }) // Send as cookie in body
-                    }).then(res => {
-                         if (!res.ok) throw new Error(`Amount API error: ${res.status}`);
-                        return res.json();
-                    }),
+                        body: JSON.stringify({ cookie })
+                    }).then(res => res.json()),
                     fetchBybitBalance()
                 ]);
 
@@ -160,18 +119,21 @@
                 document.getElementById('user-email').textContent = email || 'Unknown';
                 document.getElementById('portfolio-balance').textContent = portfolioBalance;
                 document.getElementById('roi').textContent = isNaN(roi) ? '0.00' : roi;
-
             } catch (error) {
                 console.error('Error fetching user data:', error);
-                document.getElementById('data-error-message').style.display = 'block'; // Show error message
             }
         }
 
-        const authToken = localStorage.getItem('authToken'); // Get token from localStorage
-        if (!authToken) {
-            window.location.href = '/login/index.html'; // Redirect if no token
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? match[2] : null;
+        }
+
+        const cookie = getCookie('sess-cookie');
+        if (!cookie) {
+            window.location.href = '/login/index.html';
         } else {
-            fetchUserData(authToken); // Pass authToken
+            fetchUserData(cookie);
         }
     </script>
 </body>

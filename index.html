@@ -11,6 +11,7 @@
     <title>Shoble - Building a better future.</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
     <style>
+        /* Reset and General Styles */
         * {
             margin: 0;
             padding: 0;
@@ -22,9 +23,15 @@
             background: #0d1117;
             color: #e6edf3;
             line-height: 1.6;
+            /* Removed fixed padding, will handle with container */
+        }
+
+        /* Container for consistent spacing */
+        .container {
             padding: 20px;
         }
 
+        /* Header Styles */
         header {
             position: relative;
             text-align: center;
@@ -32,6 +39,7 @@
             background: linear-gradient(135deg, #0057ff, #7300ff);
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
         }
 
         .top-right {
@@ -55,49 +63,33 @@
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
+            margin-top: 10px;
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0.8;
         }
 
         .logo {
             display: block;
             margin: 0 auto;
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 15px 0;
-        }
+        /* Navigation Styles - Removed Nav */
 
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background 0.3s ease;
-        }
-
-        nav a:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
+        /* Main Content Styles */
         main {
             max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
+            margin: 20px auto;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -108,32 +100,101 @@
             border-bottom: 2px solid #0057ff;
             padding-bottom: 8px;
             margin-bottom: 20px;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
 
         .key-metrics {
             display: flex;
+            flex-wrap: wrap;
+            /* Allow wrapping on smaller screens */
             justify-content: space-between;
             gap: 15px;
         }
 
         .metric-card {
-            flex: 1;
+            flex: 1 1 calc(50% - 15px);
+            /* Distribute space evenly, accounting for gap */
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 12px;
             text-align: center;
+            min-width: 200px;
+            /* Ensure cards don't collapse too much */
         }
 
         .metric-card h4 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
         }
 
         .metric-card p {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 700;
             margin-top: 10px;
+        }
+
+        /* Calculator Styles */
+        .calculator {
+            margin-top: 3vh;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .calculator h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .calculator input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1a2029;
+            color: #e6edf3;
+        }
+
+        .calculator button {
+            padding: 10px 20px;
+            background: #0057ff;
+            color: #ffffff;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .calculator button:hover {
+            background: #003cb3;
+        }
+
+        .calculator p {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .year-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .year-buttons button {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e6edf3;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .year-buttons button:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .fund-option {
@@ -145,11 +206,15 @@
 
         .fund-option h3 {
             color: #00ff88;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
         }
 
         .fund-option.available h3 {
             color: #ffcc00;
+        }
+
+        .fund-option p {
+            margin-bottom: 15px;
         }
 
         .button {
@@ -169,68 +234,174 @@
         }
 
         .coming-soon {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #e6edf3;
             margin-top: 8px;
             font-style: italic;
         }
 
+        /* Footer Styles */
         footer {
             text-align: center;
             padding: 20px;
-            margin-top: 40px;
-            font-size: 0.9rem;
+            margin-top: 20px;
+            font-size: 0.8rem;
             opacity: 0.8;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.75rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .key-metrics {
+                flex-direction: column;
+                /* Stack on smaller screens */
+            }
+
+            .metric-card {
+                flex: 1;
+                /* Take full width */
+                min-width: auto;
+                /* Remove minimum width restriction */
+            }
+
+            main {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Hover animation for fund options */
+        .fund-option {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .fund-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <div class="top-right">
-            <a href="/login" class="sign-in-btn">Sign In</a>
-        </div>
-        <img src="logo.png" alt="Shoble Logo" class="logo">
-        <h1>Shoble</h1>
-        <p>Building a better future.</p>
-    </header>
+    <div class="container">
+        <header>
+            <div class="top-right">
+                <a href="/login" class="sign-in-btn">Sign In</a>
+            </div>
+            <img src="logo.png" alt="Shoble Logo" class="logo">
+            <h1>Shoble</h1>
+            <p>Building a better future.</p>
+        </header>
 
-    <nav>
-        <!-- Removed unnecessary links -->
-    </nav>
-
-    <main>
-        <section>
-            <h2>Key Performance Indicators</h2>
-            <div class="key-metrics">
-                <div class="metric-card">
-                    <h4>Trading Volume (USD)</h4>
-                    <p id="trading-volume">Loading...</p>
+        <main>
+            <section>
+                <h2>Key Performance Indicators</h2>
+                <div class="key-metrics">
+                    <div class="metric-card">
+                        <h4>Trade Success Rate</h4>
+                        <p id="trading-volume">Loading...</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Average 24hr Profit (Current)</h4>
+                        <p id="profit-percent">Loading...</p>
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <h4>Profit (Closed Trades)</h4>
-                    <p id="profit-percent">Loading...</p>
+            </section>
+
+            <section>
+                <div class="calculator">
+                    <h3>Estimate Your Potential Gains</h3>
+                    <label for="investment-amount">Initial Investment Amount:</label>
+                    <input type="number" id="investment-amount" placeholder="Enter amount" value="1000">
+                    <label for="investment-days">Number of Days:</label>
+                    <input type="number" id="investment-days" placeholder="Enter days" value="30">
+                    <div class="year-buttons">
+                        <button onclick="setDays(365)">1 Year</button>
+                        <button onclick="setDays(365 * 3)">3 Years</button>
+                        <button onclick="setDays(365 * 5)">5 Years</button>
+                        <button onclick="setDays(365 * 10)">10 Years</button>
+                    </div>
+                    <button onclick="calculateReturn()">Calculate</button>
+                    <p>Estimated Return: <span id="estimated-return">Loading...</span></p>
+                    <p style="font-size: 0.8em; font-style: italic; font-weight: normal;">* This calculation is an
+                        estimate based on current average daily profit and does not include fees. Actual results may
+                        vary.</p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section>
-            <h2>Investment Options</h2>
-            <div class="fund-option available">
-                <h3>High Risk, High Yield</h3>
-                <p>Aggressively pursues high-growth opportunities. Suitable for high-return seekers.</p>
-                <a href="https://form.jotform.com/250661500945050" class="button">Invest Now</a>
-            </div>
-            <div class="fund-option">
-                <h3>Medium Risk (Coming Soon)</h3>
-                <p>A balanced strategy combining stability and growth.</p>
-            </div>
-        </section>
-    </main>
+            <section>
+                <h2>Investment Options</h2>
+                <div class="fund-option available">
+                    <h3>High Risk, High Yield</h3>
+                    <p>Aggressively pursues high-growth opportunities. Suitable for high-return seekers.</p>
+                    <a href="https://form.jotform.com/250661500945050" class="button">Invest Now</a>
+                </div>
+                <div class="fund-option">
+                    <h3>Medium Risk (Coming Soon)</h3>
+                    <p>A balanced strategy combining stability and growth.</p>
+                    <p class="coming-soon">Coming Soon</p>
+                </div>
+            </section>
+        </main>
 
-    <footer>
-        <p>© 2025 Shoble. All rights reserved.</p>
-    </footer>
+        <footer>
+            <p>© 2025 Shoble. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let averageDailyProfit; // Store the average daily profit globally
+
+        // Simulate loading data (replace with actual API calls)
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('trading-volume').textContent = '63.492%';
+                averageDailyProfit = 0.00635; // Store the average daily profit
+                document.getElementById('profit-percent').textContent = (averageDailyProfit * 100).toFixed(3) + '%'; // Display as percentage
+                calculateReturn(); // Calculate initial return based on default values
+            }, 1500); // Simulate a 1.5 second loading time
+        });
+
+
+        function calculateReturn() {
+            const investmentAmount = parseFloat(document.getElementById('investment-amount').value);
+            const investmentDays = parseInt(document.getElementById('investment-days').value);
+            const estimatedReturnElement = document.getElementById('estimated-return');
+
+            if (isNaN(investmentAmount) || isNaN(investmentDays)) {
+                estimatedReturnElement.textContent = "Invalid input";
+                return;
+            }
+
+            //Formula: inv_amount*(avr_daily_return^days)
+            const estimatedReturn = investmentAmount * (Math.pow((1 + averageDailyProfit), investmentDays));
+            estimatedReturnElement.textContent = '$' + formatNumberWithCommas(estimatedReturn.toFixed(2));
+        }
+
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function setDays(days) {
+            document.getElementById('investment-days').value = days;
+            calculateReturn(); // Recalculate the return immediately
+        }
+    </script>
 </body>
 
 </html>
