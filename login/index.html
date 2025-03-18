@@ -65,7 +65,7 @@
             border-color: #0057ff;
         }
 
-        .login-button {
+        .button {
             width: 100%;
             padding: 12px;
             background-color: #0057ff;
@@ -77,25 +77,8 @@
             transition: background 0.3s ease;
         }
 
-        .login-button:hover {
+        .button:hover {
             background-color: #003cb3;
-        }
-
-        .signup-button {
-            margin-top: 2vh;
-            width: 100%;
-            padding: 12px;
-            background-color: #00b0d8;
-            color: #fff;
-            font-weight: 600;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .signup-button:hover {
-            background-color: #00819d;
         }
 
         .error-message {
@@ -120,11 +103,8 @@
                 <label for="totp">TOTP</label>
                 <input type="text" id="totp" name="totp" placeholder="Enter your TOTP" required>
             </div>
-            <button type="submit" class="login-button">Login</button>
+            <button type="submit" class="button">Login</button>
         </form>
-        <a href="https://form.jotform.com/250661500945050">
-            <button class="signup-button" id="sign-up">Sign Up</button>
-        </a>
         <p class="error-message" id="error-message">Invalid email or TOTP. Please try again.</p>
     </div>
 
@@ -135,7 +115,7 @@
             const email = document.getElementById('email').value;
             const totp = document.getElementById('totp').value;
 
-            const response = await fetch('http://170.64.203.226:5000/login', {
+            const response = await fetch('https://api.shoble.net/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -146,11 +126,11 @@
             const data = await response.json();
 
             if (data.login_successful) {
-                // Save the cookie to the browser's cookies
-                document.cookie = `sess-cookie=${data.cookie}; path=/; secure; HttpOnly`;
+                // Store the token in localStorage
+                localStorage.setItem('authToken', data.cookie); // Assuming data.cookie contains the authentication token
 
                 // Redirect to the dashboard or home page
-                window.location.href = 'http://localhost:5500/dashboard';
+                window.location.href = 'https://shoble.net/dashboard';
             } else {
                 // Display error message
                 document.getElementById('error-message').style.display = 'block';
