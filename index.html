@@ -336,7 +336,7 @@
                         <button onclick="setDays(365 * 5)">5 Years</button>
                         <button onclick="setDays(365 * 10)">10 Years</button>
                     </div>
-                    <button onclick="calculateReturn()">Calculate</button>
+                    <button style="margin-top: 1.5vh;" onclick="calculateReturn()">Calculate</button>
                     <p>Estimated Return: <span id="estimated-return">Loading...</span></p>
                     <p style="font-size: 0.8em; font-style: italic; font-weight: normal;">* This calculation is an
                         estimate based on current average daily profit and does not include fees. Actual results may
@@ -370,7 +370,7 @@
         // Simulate loading data (replace with actual API calls)
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                document.getElementById('trading-volume').textContent = '63.492%';
+                document.getElementById('trading-volume').textContent = '62.5%';
                 averageDailyProfit = 0.00119; // Store the average daily profit
                 document.getElementById('profit-percent').textContent = (averageDailyProfit * 100).toFixed(3) + '%'; // Display as percentage
                 calculateReturn(); // Calculate initial return based on default values

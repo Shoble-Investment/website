@@ -81,6 +81,23 @@
             background-color: #003cb3;
         }
 
+        .signup-button {
+            margin-top: 2vh;
+            width: 100%;
+            padding: 12px;
+            background-color: #00d5ffd9;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .signup-button:hover {
+            background-color: #0089b3;
+        }
+
         .error-message {
             text-align: center;
             color: #ff4d4d;
@@ -105,6 +122,9 @@
             </div>
             <button type="submit" class="button">Login</button>
         </form>
+        <a href="https://form.jotform.com/250661500945050">
+            <button class="signup-button">No account? Register here.</button>
+        </a>
         <p class="error-message" id="error-message">Invalid email or TOTP. Please try again.</p>
     </div>
 
