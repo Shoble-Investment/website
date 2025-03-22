@@ -313,8 +313,8 @@
                 <h2>Key Performance Indicators</h2>
                 <div class="key-metrics">
                     <div class="metric-card">
-                        <h4>Trade Success Rate</h4>
-                        <p id="trading-volume">Loading...</p>
+                        <h4>Trades Made</h4>
+                        <p id="trades">Loading...</p>
                     </div>
                     <div class="metric-card">
                         <h4>Average 24hr Profit (Current)</h4>
@@ -370,7 +370,7 @@
         // Simulate loading data (replace with actual API calls)
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                document.getElementById('trading-volume').textContent = '62.5%';
+                document.getElementById('trades').textContent = '105';
                 averageDailyProfit = 0.002026; // Store the average daily profit
                 document.getElementById('profit-percent').textContent = (averageDailyProfit * 100).toFixed(3) + '%'; // Display as percentage
                 calculateReturn(); // Calculate initial return based on default values
