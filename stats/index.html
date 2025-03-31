@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shoble High Risk High Yield Fund – Backtest Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .section-title {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #0d6efd;
+            padding-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background-color: #e9f5ff;
+            border-left: 4px solid #0d6efd;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .table thead {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .tooltip-inner {
+            max-width: 300px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body class="container py-4">
+
+    <header class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-primary">Shoble High Risk High Yield Fund</h1>
+        <p class="lead">Backtesting Performance Report</p>
+        <p><strong>Period:</strong> March 16, 2024 – March 16, 2025</p>
+    </header>
+
+    <section>
+        <div class="highlight">
+            <h2 class="h4">📈 Executive Summary</h2>
+            <ul>
+                <li><strong>Strategy:</strong> ShobleAI</li>
+                <li><strong>Final Balance:</strong> 8,047,515.61 USDT</li>
+                <li><strong>Total Profit:</strong> 8,047,415.61 USDT (8047415.61%)</li>
+                <li><strong>Total Trades:</strong> 21,075</li>
+                <li><strong>Win Rate:</strong> 71.4%</li>
+                <li><strong>Trading Mode:</strong> Isolated Futures</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">📊 Summary Metrics</h2>
+        <table class="table table-bordered table-hover">
+            <tbody>
+                <tr>
+                    <th>Sharpe Ratio</th>
+                    <td>28.67</td>
+                </tr>
+                <tr>
+                    <th>Sortino Ratio</th>
+                    <td>19.41</td>
+                </tr>
+                <tr>
+                    <th>Calmar Ratio</th>
+                    <td>2,086,444.27</td>
+                </tr>
+                <tr>
+                    <th>Profit Factor</th>
+                    <td>1.26</td>
+                </tr>
+                <tr>
+                    <th>Expectancy</th>
+                    <td>381.85 (0.07)</td>
+                </tr>
+                <tr>
+                    <th>Avg. Daily Profit %</th>
+                    <td>22,047.71%</td>
+                </tr>
+                <tr>
+                    <th>Max Drawdown</th>
+                    <td>20.19% (1,489,582.20 USDT)</td>
+                </tr>
+                <tr>
+                    <th>Best Day</th>
+                    <td>1,866,995.56 USDT</td>
+                </tr>
+                <tr>
+                    <th>Worst Day</th>
+                    <td>-996,134.89 USDT</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2 class="section-title">📌 Top Performing Pairs</h2>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Pair</th>
+                    <th>Trades</th>
+                    <th>Avg Profit %</th>
+                    <th>Total Profit</th>
+                    <th>Win %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>XRP/USDT</td>
+                    <td>2031</td>
+                    <td>0.16%</td>
+                    <td>1,548,550.07</td>
+                    <td>68.5%</td>
+                </tr>
+                <tr>
+                    <td>BNB/USDT</td>
+                    <td>1594</td>
+                    <td>0.38%</td>
+                    <td>1,174,039.26</td>
+                    <td>70.3%</td>
+                </tr>
+                <tr>
+                    <td>ADA/USDT</td>
+                    <td>2537</td>
+                    <td>0.21%</td>
+                    <td>1,138,139.12</td>
+                    <td>66.0%</td>
+                </tr>
+                <tr>
+                    <td>ETH/USDT</td>
+                    <td>1479</td>
+                    <td>0.72%</td>
+                    <td>945,508.28</td>
+                    <td>73.9%</td>
+                </tr>
+                <tr>
+                    <td>LTC/USDT</td>
+                    <td>2408</td>
+                    <td>0.41%</td>
+                    <td>793,748.20</td>
+                    <td>72.2%</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2 class="section-title">📉 Drawdown Details</h2>
+        <p>
+            The maximum drawdown observed was <strong>20.19%</strong>, occurring between
+            <strong>March 10, 2025 08:00</strong> and <strong>22:00</strong> the same day.
+            The account dropped from <strong>7,378,284.19</strong> to <strong>5,888,701.99 USDT</strong>.
+        </p>
+    </section>
+
+    <section>
+        <h2 class="section-title">📋 Strategy Performance</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Strategy</th>
+                    <th>Trades</th>
+                    <th>Avg Profit %</th>
+                    <th>Total Profit</th>
+                    <th>Win %</th>
+                    <th>Drawdown</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ShobleAI</td>
+                    <td>21,075</td>
+                    <td>0.44%</td>
+                    <td>8,047,415.61 USDT</td>
+                    <td>71.4%</td>
+                    <td>20.19%</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2 class="section-title">📌 Notes</h2>
+        <ul>
+            <li><strong>Trailing Stop Loss</strong> was the most effective exit strategy, with an 82.4% win rate.</li>
+            <li><strong>Stop Loss</strong> exits had the worst performance, with a 0% win rate and -25.59% average loss.
+            </li>
+            <li>Short positions slightly outperformed long positions in both volume and profitability.</li>
+        </ul>
+    </section>
+
+    <footer class="text-center mt-5">
+        <p class="text-muted">Generated on March 31, 2025 · Powered by Freqtrade · Report by Shoble Quant Team</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
